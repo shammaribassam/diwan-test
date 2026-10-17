@@ -64,7 +64,10 @@ const poetNotes={
  'البحتري':'البحتري (206–284هـ) شاعر عباسي عُرف بعذوبة الأسلوب والوصف، وكان من شعراء البلاط العباسي.',
  'محمود درويش':'محمود درويش (1941–2008م) شاعر فلسطيني معاصر، ارتبط شعره بالهوية والمنفى والذاكرة.'
 };
-function updateLiteraryNote(){const q=questions.find(q=>q[1]===state.question);const poet=q?.[7]||'';const text=poetNotes[poet]|| (poet?`الشاعر المذكور في بيانات السؤال: ${poet}. تُراجع مناسبة البيت في الديوان أو المصادر المحققة قبل روايتها على أنها واقعة ثابتة.`:'لا توجد نسبة موثقة لهذا السؤال في البيانات. لا تُنسب قصة محددة للبيت دون توثيق.');
- $('literaryNote').textContent=`السؤال: ${state.question||'—'}\nالشاعر أو المرجع: ${poet||'غير محدد'}\n${text}\nيمكنك رواية هذه النبذة للمتابعين شفهيًا أو تجاهلها. لا تُعرض في صفحة المتابعين.`;
+function updateLiteraryNote(){
+ const i=questions.findIndex(q=>q[1]===state.question);
+ const q=i>=0?questions[i]:null;
+ const note=i>=0?literaryNotes[i]:'';
+ $('literaryNote').textContent=q?`عن السؤال: ${q[1]}\n\n${note}\n\nهذه ملاحظات خاصة بالمستضيف؛ لا تُعرض في صفحة المتابعين. بعض الروايات التاريخية محل خلاف.`:'اختر سؤالًا لعرض نبذته الأدبية هنا.';
 }
 const originalRender=render;render=function(){originalRender();managePlayers();updateLiteraryNote()};render();
